@@ -45,6 +45,7 @@ func getLocalIP() (string, error) {
 
 func main() {
 
+	// FIXME: how do i make it so that i dont have to update this every time
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
 		log.Error(err)
@@ -63,47 +64,34 @@ func main() {
 		log.Error(err)
 	}
 
-	refreshTime := time.Now()
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 
-	for {
+	timeNow := time.Now().Format("Mon Jan _2, 2006 15:04:05")
+	timeNowUTC := time.Now().UTC().Format("Mon Jan _2, 2006 15:04:05")
+	nextLaunchTimeUtc := nextLaunch.LaunchDateUtc
+	nextLaunchTimeUtcFormated := nextLaunchTimeUtc.Format("Mon Jan _2, 2006 15:04:05 ")
+	elapsedTime := time.Until(nextLaunchTimeUtc)
 
-		elapsedRefreshTime := time.Since(refreshTime)
-		if elapsedRefreshTime > time.Second {
-			refreshTime = time.Now()
+	fmt.Println("____ ___  ____ ____ ____ _  _")
+	fmt.Printf("[__  |__] |__| |    |___  \\/   \tSpaceX API: \t[v%s]\n", spaceXApiVersion)
+	fmt.Printf("___] |    |  | |___ |___ _/\\_  \tVersion: \t[v%s]\n", spaceXClockVersion)
+	fmt.Println()
+	fmt.Println("SYSTEM ========================================================")
+	fmt.Printf(" IPv4: \t\t\t\t%s\n", ipAddress)
+	fmt.Printf(" Time: \t\t\t\t%s\n", timeNow)
+	fmt.Printf(" Time UTC: \t\t\t%s\n", timeNowUTC)
+	fmt.Println("LAUNCH ======================================================")
+	fmt.Printf(" Mission Name: \t\t\t%s\n", nextLaunch.MissionName)
+	fmt.Printf(" Flight Number: \t\t%d\n", nextLaunch.FlightNumber)
+	fmt.Printf(" Launch Site: \t\t\t%s\n", nextLaunch.LaunchSite.SiteName)
+	fmt.Printf(" Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated)
+	fmt.Printf(" Elapsed Time: \t\t\t%s\n", elapsedTime)
 
-			// FIXME: how do I do this without eating the cpu
-			cmd := exec.Command("clear")
-			cmd.Stdout = os.Stdout
-			cmd.Run()
-
-			timeNow := time.Now().Format("Mon Jan _2, 2006 15:04:05")
-			timeNowUTC := time.Now().UTC().Format("Mon Jan _2, 2006 15:04:05")
-			nextLaunchTimeUtc := nextLaunch.LaunchDateUtc
-			nextLaunchTimeUtcFormated := nextLaunchTimeUtc.Format("Mon Jan _2, 2006 15:04:05 ")
-			elapsedTime := time.Until(nextLaunchTimeUtc)
-
-			fmt.Println("____ ___  ____ ____ ____ _  _")
-			fmt.Printf("[__  |__] |__| |    |___  \\/   \tSpaceX API: \t[v%s]\n", spaceXApiVersion)
-			fmt.Printf("___] |    |  | |___ |___ _/\\_  \tVersion: \t[v%s]\n", spaceXClockVersion)
-			fmt.Println()
-			fmt.Println("SYSTEM ========================================================")
-			fmt.Printf(" IPv4: \t\t\t\t%s\n", ipAddress)
-			fmt.Printf(" Time: \t\t\t\t%s\n", timeNow)
-			fmt.Printf(" Time UTC: \t\t\t%s\n", timeNowUTC)
-			fmt.Println("LAUNCH ======================================================")
-			fmt.Printf(" Mission Name: \t\t\t%s\n", nextLaunch.MissionName)
-			fmt.Printf(" Flight Number: \t\t%d\n", nextLaunch.FlightNumber)
-			fmt.Printf(" Launch Site: \t\t\t%s\n", nextLaunch.LaunchSite.SiteName)
-			fmt.Printf(" Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated)
-			fmt.Printf(" Elapsed Time: \t\t\t%s\n", elapsedTime)
-
-			// TODO: show graph of elapsed time - show elapsed time after elapsed time is < 24 hours
-			fmt.Print(" [\t\t\t\t\t\t\t]\n")
-			fmt.Println("ROCKET =====================================================")
-			fmt.Printf(" Rocket Name: \t\t\t%s\n", nextLaunch.Rocket.RocketName)
-			fmt.Printf(" Engines: \t\t\t%d\n", rocket.Engines.Number)
-			fmt.Printf(" Name: \t\t\t\t%s\n", rocketTypeCamelCase)
-			fmt.Printf(" Version: \t\t\t%s\n", rocket.Engines.Version)
-		}
-	}
+	// TODO: show graph of elapsed time - show elapsed time after elapsed time is < 24 hours
+	fmt.Print(" [\t\t\t\t\t\t\t]\n")
+	fmt.Println("ROCKET =====================================================")
+	fmt.Printf(" Name: \t\t\t\t%s\n", nextLaunch.Rocket.RocketName)
+	fmt.Printf(" Engines: \t\t\t%d x %s %s\n", rocket.Engines.Number, rocketTypeCamelCase, rocket.Engines.Version)
 }
