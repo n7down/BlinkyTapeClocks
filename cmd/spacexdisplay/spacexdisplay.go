@@ -17,6 +17,7 @@ const (
 	spaceXClockVersion = "1.0.0"
 )
 
+// FIXME: this does not work
 func fmtDuration(d time.Duration) string {
 	d = d.Round(time.Minute)
 	h := d / time.Hour
