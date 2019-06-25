@@ -1,12 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/n7down/Displays/internal/spacexapi"
 	log "github.com/sirupsen/logrus"
-	"io/ioutil"
 	"net"
 	"os"
 	"os/exec"
@@ -73,18 +71,6 @@ func main() {
 		NextLaunch: nextLaunch,
 		Rocket:     rocket,
 	}
-
-	spaceXDataJson, err := json.Marshal(spaceXData)
-	if err != nil {
-		log.Error(err)
-	}
-
-	err = ioutil.WriteFile(spaceXDataFile, spaceXDataJson, 0644)
-	if err != nil {
-		log.Error(err)
-	}
-
-	log.Info(spaceXData)
 
 	rocketTypeCamelCase := spaceXData.Rocket.Engines.Type
 	rocketTypeCamelCase = strings.ToUpper(string(rocketTypeCamelCase[0])) + rocketTypeCamelCase[1:]
