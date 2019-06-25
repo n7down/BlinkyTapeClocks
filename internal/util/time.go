@@ -34,7 +34,9 @@ func (e ElapsedTime) String() string {
 
 func (e ElapsedTime) PrintBar() string {
 	var buffer bytes.Buffer
+	//numberOfBars := 10
 	bar := "■"
-	buffer.WriteString(aurora.Sprintf(aurora.Cyan(bar)))
+	coloredBar := aurora.Sprintf(aurora.Cyan(bar))
+	buffer.WriteString(coloredBar)
 	return buffer.String()
 }
