@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/n7down/Displays/internal/spacexapi"
 	log "github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net"
 	"os"
 	"os/exec"
@@ -15,7 +17,18 @@ import (
 const (
 	spaceXApiVersion   = "3"
 	spaceXClockVersion = "1.0.0"
+	spaceXDataFile     = "spacex.json"
 )
+
+var (
+	spaceXData SpaceXData
+)
+
+type SpaceXData struct {
+	LastUpdate time.Time            `json:"last_update"`
+	NextLaunch spacexapi.NextLaunch `json:"next_launch"`
+	Rocket     spacexapi.Rocket     `json:"rocket"`
+}
 
 // FIXME: this does not work
 func fmtDuration(d time.Duration) string {
@@ -45,8 +58,6 @@ func getLocalIP() (string, error) {
 
 func main() {
 
-	// FIXME: how do i make it so that i dont have to update this every time
-	// get the data and store it if it does not exist
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
 		log.Error(err)
@@ -57,7 +68,25 @@ func main() {
 		log.Error(err)
 	}
 
-	rocketTypeCamelCase := rocket.Engines.Type
+	spaceXData := SpaceXData{
+		LastUpdate: time.Now(),
+		NextLaunch: nextLaunch,
+		Rocket:     rocket,
+	}
+
+	spaceXDataJson, err := json.Marshal(spaceXData)
+	if err != nil {
+		log.Error(err)
+	}
+
+	err = ioutil.WriteFile(spaceXDataFile, spaceXDataJson, 0644)
+	if err != nil {
+		log.Error(err)
+	}
+
+	log.Info(spaceXData)
+
+	rocketTypeCamelCase := spaceXData.Rocket.Engines.Type
 	rocketTypeCamelCase = strings.ToUpper(string(rocketTypeCamelCase[0])) + rocketTypeCamelCase[1:]
 
 	ipAddress, err := getLocalIP()
@@ -71,7 +100,7 @@ func main() {
 
 	timeNow := time.Now().Format("Mon Jan _2, 2006 15:04:05")
 	timeNowUTC := time.Now().UTC().Format("Mon Jan _2, 2006 15:04:05")
-	nextLaunchTimeUtc := nextLaunch.LaunchDateUtc
+	nextLaunchTimeUtc := spaceXData.NextLaunch.LaunchDateUtc
 	nextLaunchTimeUtcFormated := nextLaunchTimeUtc.Format("Mon Jan _2, 2006 15:04:05 ")
 	elapsedTime := time.Until(nextLaunchTimeUtc)
 
@@ -84,15 +113,15 @@ func main() {
 	fmt.Printf(" Time: \t\t\t\t%s\n", timeNow)
 	fmt.Printf(" Time UTC: \t\t\t%s\n", timeNowUTC)
 	fmt.Println("LAUNCH ======================================================")
-	fmt.Printf(" Mission Name: \t\t\t%s\n", nextLaunch.MissionName)
-	fmt.Printf(" Flight Number: \t\t%d\n", nextLaunch.FlightNumber)
-	fmt.Printf(" Launch Site: \t\t\t%s\n", nextLaunch.LaunchSite.SiteName)
+	fmt.Printf(" Mission Name: \t\t\t%s\n", spaceXData.NextLaunch.MissionName)
+	fmt.Printf(" Flight Number: \t\t%d\n", spaceXData.NextLaunch.FlightNumber)
+	fmt.Printf(" Launch Site: \t\t\t%s\n", spaceXData.NextLaunch.LaunchSite.SiteName)
 	fmt.Printf(" Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated)
 	fmt.Printf(" Elapsed Time: \t\t\t%s\n", elapsedTime)
 
 	// TODO: show graph of elapsed time - show elapsed time after elapsed time is < 24 hours
 	fmt.Print(" [\t\t\t\t\t\t\t]\n")
 	fmt.Println("ROCKET =====================================================")
-	fmt.Printf(" Name: \t\t\t\t%s\n", nextLaunch.Rocket.RocketName)
-	fmt.Printf(" Engines: \t\t\t%d x %s %s\n", rocket.Engines.Number, rocketTypeCamelCase, rocket.Engines.Version)
+	fmt.Printf(" Name: \t\t\t\t%s\n", spaceXData.NextLaunch.Rocket.RocketName)
+	fmt.Printf(" Engines: \t\t\t%d x %s %s\n", spaceXData.Rocket.Engines.Number, rocketTypeCamelCase, spaceXData.Rocket.Engines.Version)
 }
