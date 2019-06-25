@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/n7down/Displays/internal/display/spacexdisplay"
+	"github.com/n7down/PITFTDisplays/internal/display/spacexdisplay"
 )
 
 func main() {
