@@ -46,6 +46,7 @@ func getLocalIP() (string, error) {
 func main() {
 
 	// FIXME: how do i make it so that i dont have to update this every time
+	// get the data and store it if it does not exist
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
 		log.Error(err)
