@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	aurora "github.com/logrusorgru/aurora"
-	log "github.com/sirupsen/logrus"
-	"math"
+	//log "github.com/sirupsen/logrus"
+	//"math"
 	"time"
 )
 
@@ -54,20 +54,22 @@ func (e ElapsedTime) PrintBar() string {
 	} else {
 
 		// % increase = increase / original * 100
-		percentage := float64(e.Hour / weekInHours * 100)
-		log.Info(fmt.Sprintf("%:%f", percentage))
-		numberOfRedBars := int(math.Round(percentage * 0.01 * float64(numberOfBars)))
-		log.Info(fmt.Sprintf("# red bars: %d", numberOfRedBars))
-		numberOfGreenBars := numberOfBars - numberOfRedBars
-		log.Info(fmt.Sprintf("# green bars: %d", numberOfGreenBars))
-		for i := 0; i <= numberOfGreenBars; i++ {
-			coloredBar := aurora.Sprintf(aurora.Green(bar))
-			buffer.WriteString(coloredBar)
-		}
-		for i := 0; i <= numberOfRedBars; i++ {
-			coloredBar := aurora.Sprintf(aurora.Red(bar))
-			buffer.WriteString(coloredBar)
-		}
+
+		// FIXME: not sure what is wrong here
+		//percentage := fmt.Sprintf("%02d", e.Hour) / weekInHours
+		//log.Info(fmt.Sprintf("%:%s", percentage))
+		//numberOfRedBars := int(math.Round(percentage * float64(numberOfBars)))
+		//log.Info(fmt.Sprintf("# red bars: %d", numberOfRedBars))
+		//numberOfGreenBars := numberOfBars - numberOfRedBars
+		//log.Info(fmt.Sprintf("# green bars: %d", numberOfGreenBars))
+		//for i := 0; i <= numberOfGreenBars; i++ {
+		//coloredBar := aurora.Sprintf(aurora.Green(bar))
+		//buffer.WriteString(coloredBar)
+		//}
+		//for i := 0; i <= numberOfRedBars; i++ {
+		//coloredBar := aurora.Sprintf(aurora.Red(bar))
+		//buffer.WriteString(coloredBar)
+		//}
 	}
 	return buffer.String()
 }
