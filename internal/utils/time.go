@@ -1,4 +1,4 @@
-package util
+package utils
 
 import (
 	"bytes"
@@ -36,22 +36,22 @@ func NewElapsedTime(d time.Duration) *ElapsedTime {
 }
 
 func (e ElapsedTime) String() string {
-	return fmt.Sprintf("%02dh %02dm %02ds", e.Hour, e.Minute, e.Second)
+	return fmt.Sprintf("%dh %dm %ds", e.Hour, e.Minute, e.Second)
 }
 
 func (e ElapsedTime) PrintBar() string {
 	var buffer bytes.Buffer
-	numberOfBars := 54
+	barWidth := 54
 	bar := "■"
 	if e.Hour > weekInHours {
-		for i := 0; i < numberOfBars; i++ {
+		for i := 0; i < barWidth; i++ {
 			coloredBar := aurora.Sprintf(aurora.Red(bar))
 			buffer.WriteString(coloredBar)
 		}
 	} else if e.Hour <= weekInHours && e.Hour > 0 {
 		percentage := float64(e.Hour) / float64(weekInHours)
-		numberOfRedBars := int(math.Round(percentage * float64(numberOfBars)))
-		numberOfGreenBars := numberOfBars - numberOfRedBars
+		numberOfRedBars := int(math.Round(percentage * float64(barWidth)))
+		numberOfGreenBars := barWidth - numberOfRedBars
 		for i := 0; i <= numberOfGreenBars; i++ {
 			coloredBar := aurora.Sprintf(aurora.Green(bar))
 			buffer.WriteString(coloredBar)
@@ -61,7 +61,7 @@ func (e ElapsedTime) PrintBar() string {
 			buffer.WriteString(coloredBar)
 		}
 	} else {
-		for i := 0; i < numberOfBars; i++ {
+		for i := 0; i < barWidth; i++ {
 			coloredBar := aurora.Sprintf(aurora.Green(bar))
 			buffer.WriteString(coloredBar)
 		}
