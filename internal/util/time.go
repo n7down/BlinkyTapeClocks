@@ -3,10 +3,10 @@ package util
 import (
 	"bytes"
 	"fmt"
-	aurora "github.com/logrusorgru/aurora"
-	//log "github.com/sirupsen/logrus"
-	//"math"
+	"math"
 	"time"
+
+	aurora "github.com/logrusorgru/aurora"
 )
 
 const (
@@ -14,9 +14,9 @@ const (
 )
 
 type ElapsedTime struct {
-	Hour   time.Duration
-	Minute time.Duration
-	Second time.Duration
+	Hour   int
+	Minute int
+	Second int
 }
 
 func NewElapsedTime(d time.Duration) *ElapsedTime {
@@ -27,10 +27,11 @@ func NewElapsedTime(d time.Duration) *ElapsedTime {
 	d -= m * time.Minute
 	s := d / time.Second
 	e := ElapsedTime{
-		Hour:   h,
-		Minute: m,
-		Second: s,
+		Hour:   int(h),
+		Minute: int(m),
+		Second: int(s),
 	}
+
 	return &e
 }
 
@@ -42,34 +43,28 @@ func (e ElapsedTime) PrintBar() string {
 	var buffer bytes.Buffer
 	numberOfBars := 54
 	bar := "■"
-
-	// if greater then a week
 	if e.Hour > weekInHours {
-
-		// show all red
 		for i := 0; i < numberOfBars; i++ {
 			coloredBar := aurora.Sprintf(aurora.Red(bar))
 			buffer.WriteString(coloredBar)
 		}
+	} else if e.Hour <= weekInHours && e.Hour > 0 {
+		percentage := float64(e.Hour) / float64(weekInHours)
+		numberOfRedBars := int(math.Round(percentage * float64(numberOfBars)))
+		numberOfGreenBars := numberOfBars - numberOfRedBars
+		for i := 0; i <= numberOfGreenBars; i++ {
+			coloredBar := aurora.Sprintf(aurora.Green(bar))
+			buffer.WriteString(coloredBar)
+		}
+		for i := 0; i < numberOfRedBars; i++ {
+			coloredBar := aurora.Sprintf(aurora.Red(bar))
+			buffer.WriteString(coloredBar)
+		}
 	} else {
-
-		// % increase = increase / original * 100
-
-		// FIXME: not sure what is wrong here
-		//percentage := fmt.Sprintf("%02d", e.Hour) / weekInHours
-		//log.Info(fmt.Sprintf("%:%s", percentage))
-		//numberOfRedBars := int(math.Round(percentage * float64(numberOfBars)))
-		//log.Info(fmt.Sprintf("# red bars: %d", numberOfRedBars))
-		//numberOfGreenBars := numberOfBars - numberOfRedBars
-		//log.Info(fmt.Sprintf("# green bars: %d", numberOfGreenBars))
-		//for i := 0; i <= numberOfGreenBars; i++ {
-		//coloredBar := aurora.Sprintf(aurora.Green(bar))
-		//buffer.WriteString(coloredBar)
-		//}
-		//for i := 0; i <= numberOfRedBars; i++ {
-		//coloredBar := aurora.Sprintf(aurora.Red(bar))
-		//buffer.WriteString(coloredBar)
-		//}
+		for i := 0; i < numberOfBars; i++ {
+			coloredBar := aurora.Sprintf(aurora.Green(bar))
+			buffer.WriteString(coloredBar)
+		}
 	}
 	return buffer.String()
 }
