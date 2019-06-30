@@ -43,7 +43,7 @@ func NewSpaceXDisplay() *SpaceXDisplay {
 }
 
 // Refreshes the data that is used in the display
-func Refresh() {
+func (s SpaceXDisplay) Refresh() {
 
 }
 

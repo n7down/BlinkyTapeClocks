@@ -11,11 +11,10 @@ const (
 	githubApiUrl = "https://api.github.com/"
 )
 
-func GetReleases(owner string, repo string) (Releases, error) {
+func GetReleases(owner string, repo string, githubToken string) (Releases, error) {
 	url := fmt.Sprintf("repos/%s/%s/releases", owner, repo)
 	apiUrl := githubApiUrl + url
 
-	githubToken := ""
 	token := fmt.Sprintf("token %s", githubToken)
 
 	client := &http.Client{}
@@ -40,11 +39,10 @@ func GetReleases(owner string, repo string) (Releases, error) {
 	return t, nil
 }
 
-func GetTags(owner string, repo string) (Tags, error) {
+func GetTags(owner string, repo string, githubToken string) (Tags, error) {
 	url := fmt.Sprintf("repos/%s/%s/tags", owner, repo)
 	apiUrl := githubApiUrl + url
 
-	githubToken := ""
 	token := fmt.Sprintf("token %s", githubToken)
 
 	client := &http.Client{}
