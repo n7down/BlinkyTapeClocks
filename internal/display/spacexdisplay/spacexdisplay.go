@@ -70,6 +70,7 @@ func (s SpaceXDisplay) Render() {
 	elapsedTime := utils.NewElapsedTime(time.Until(nextLaunchTimeUtc))
 
 	fmt.Println()
+	fmt.Println()
 	fmt.Println("     ███████╗██████╗  █████╗  ██████╗███████╗██╗  ██╗")
 	fmt.Println("     ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝╚██╗██╔╝")
 	fmt.Println("     ███████╗██████╔╝███████║██║     █████╗   ╚███╔╝ ")
