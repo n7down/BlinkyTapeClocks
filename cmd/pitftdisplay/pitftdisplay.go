@@ -6,6 +6,7 @@ import (
 	"github.com/n7down/PITFTDisplays/internal/display/spacexdisplay"
 	"time"
 	//"github.com/n7down/PITFTDisplays/internal/display/githubdisplay"
+	"github.com/n7down/PITFTDisplays/internal/utils"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -20,6 +21,7 @@ func main() {
 	//displayManager.AddDisplay(githubdisplay.NewGithubDisplay(c))
 	// TODO: render every second
 	for {
+		utils.ClearScreen()
 		time.Sleep(time.Second)
 		displayManager.Render()
 	}
