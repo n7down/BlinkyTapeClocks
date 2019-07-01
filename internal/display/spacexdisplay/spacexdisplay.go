@@ -42,15 +42,13 @@ func NewSpaceXDisplay() *SpaceXDisplay {
 	return &d
 }
 
-// Refreshes the data that is used in the display
-func (s SpaceXDisplay) Refresh() {
-
+// Returns true if this object should be recreated
+func (s SpaceXDisplay) Refresh() bool {
+	return false
 }
 
 // Render the display
 func (s SpaceXDisplay) Render() {
-	//rocketTypeCamelCase := s.Rocket.Engines.Type
-	//rocketTypeCamelCase = strings.ToUpper(string(rocketTypeCamelCase[0])) + rocketTypeCamelCase[1:]
 	rocketType := strings.Title(s.Rocket.Engines.Type)
 
 	ipAddress, err := utils.GetLocalIP()
