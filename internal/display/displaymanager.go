@@ -1,20 +1,19 @@
 package display
 
 import (
+
+	// FIXME: may have to change this to a stack
 	"container/list"
-	"github.com/spf13/viper"
 )
 
 // A display manager, manages a list of displays and figures out when to refresh its stats and when to render it
 type DisplayManager struct {
 	displayList *list.List
-	config      *viper.Viper
 }
 
-func NewDisplayManager(config *viper.Viper) *DisplayManager {
+func NewDisplayManager() *DisplayManager {
 	dm := DisplayManager{
 		displayList: list.New(),
-		config:      config,
 	}
 	return &dm
 }
