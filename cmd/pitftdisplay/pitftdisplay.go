@@ -21,8 +21,8 @@ func main() {
 	//displayManager.AddDisplay(githubdisplay.NewGithubDisplay(c))
 	// TODO: render every second
 	for {
-		utils.ClearScreen()
 		time.Sleep(time.Second)
+		utils.ClearScreen()
 		displayManager.Render()
 	}
 }
