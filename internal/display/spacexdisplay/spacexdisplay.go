@@ -78,7 +78,7 @@ func (s SpaceXDisplay) Render() {
 	fmt.Println("     ╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝")
 	fmt.Printf("\tSpaceX API: [v%s] \t Version: [v%s]\n", spaceXApiVersion, spaceXClockVersion)
 	fmt.Println(" MISSION ======================================================")
-	fmt.Printf("  Name: %s \t\t\tFlight Number: \t%d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber)
+	fmt.Printf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber)
 	fmt.Println(" LAUNCH ========================================================")
 	fmt.Printf("  Launch Site: \t\t\t%s\n", s.NextLaunch.LaunchSite.SiteName)
 	fmt.Printf("  Time: \t\t\t%s\n", timeNow)
