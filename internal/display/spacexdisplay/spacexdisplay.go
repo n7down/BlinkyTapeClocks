@@ -88,5 +88,10 @@ func (s SpaceXDisplay) Render() {
 	fmt.Println("ROCKET ========================================================")
 	fmt.Printf(" Name: \t%s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version)
 	fmt.Println("SYSTEM ========================================================")
-	fmt.Printf(" Name: \t%s \t\t\tIPv4: %s/24\n", hostname, ipAddress)
+	fmt.Printf(" Name: \t%s \t\tIPv4: %s/24\n", hostname, ipAddress)
+	fmt.Println()
+	fmt.Println()
+	fmt.Println()
+	fmt.Println()
+	fmt.Println()
 }
