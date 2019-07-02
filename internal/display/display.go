@@ -1,6 +1,6 @@
 package display
 
 type Display interface {
-	Refresh()
+	Refresh() bool
 	Render()
 }

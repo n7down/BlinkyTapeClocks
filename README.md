@@ -11,3 +11,7 @@
 - [ISS Data](http://open-notify.org/)
 - [Github V3 API](https://developer.github.com/v3/)
 
+## Todo
+- [ ] Build scripts that deployed remotely
+ - [Makefile example](https://github.com/azer/go-makefile-example/blob/master/Makefile)
+ - [Send remote command to restart display](https://unix.stackexchange.com/questions/242429/execute-command-on-remote-screen)
