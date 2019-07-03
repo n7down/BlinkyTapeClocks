@@ -2,7 +2,7 @@ package githubdisplay
 
 import (
 	"fmt"
-	"github.com/n7down/PITFTDisplays/internal/githubapi"
+	"github.com/n7down/pitftdisplays/internal/githubapi"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )

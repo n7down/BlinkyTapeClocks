@@ -2,8 +2,8 @@ package spacexdisplay
 
 import (
 	"fmt"
-	"github.com/n7down/PITFTDisplays/internal/spacexapi"
-	"github.com/n7down/PITFTDisplays/internal/utils"
+	"github.com/n7down/pitftdisplays/internal/spacexapi"
+	"github.com/n7down/pitftdisplays/internal/utils"
 
 	//aurora "github.com/logrusorgru/aurora"
 	log "github.com/sirupsen/logrus"

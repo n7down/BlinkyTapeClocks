@@ -105,7 +105,7 @@ PID := /tmp/.$(PROJECTNAME).pid
 
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
-GOFILES=$(GOPATH)/src/github.com/n7down/PITFTDisplays/cmd/pitftdisplay/*.go
+GOFILES=$(GOPATH)/src/github.com/n7down/pitftdisplays/cmd/pitftdisplay/*.go
 
 install:
 	echo "installing... \c"
