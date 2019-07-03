@@ -15,3 +15,6 @@
 - [ ] Build scripts that deployed remotely
  - [Makefile example](https://github.com/azer/go-makefile-example/blob/master/Makefile)
  - [Send remote command to restart display](https://unix.stackexchange.com/questions/242429/execute-command-on-remote-screen)
+ - [Another makefile example](https://gist.github.com/TheHippo/7e4d9ec4b7ed4c0d7a39839e6800cc16)
+ - [Auto build verions](https://stackoverflow.com/questions/11354518/application-auto-build-versioning)
+ - [Fetching private GitHub repos from a Docker container](https://medium.com/paperchain/fetching-private-github-repos-from-a-docker-container-273f25ec5a74)

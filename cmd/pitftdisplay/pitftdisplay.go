@@ -10,6 +10,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var (
+	version string
+)
+
 func main() {
 	_, err := config.Config()
 	if err != nil {
