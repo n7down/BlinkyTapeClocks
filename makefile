@@ -106,45 +106,57 @@ PID := /tmp/.$(PROJECTNAME).pid
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
 GOFILES=$(GOPATH)/src/github.com/n7down/pitftdisplays/cmd/pitftdisplay/*.go
+PKG_LIST=$(go list ./...)
 
 install:
 	echo "installing... \c"
-	go get ./... 
+	@go get ./... 
 	echo "done"
 
 build:
 	echo "building... \c"
-	GOBIN=$(GOBIN) go build $(LDFLAGS) -o $(GOBIN)/$(PROJECTNAME) $(GOFILES)
+	@GOBIN=$(GOBIN) go build $(LDFLAGS) -o $(GOBIN)/$(PROJECTNAME) $(GOFILES)
 	echo "done"
 
 generate:
 	echo "generating dependency files... \c"
-	GOBIN=$(GOBIN) go generate ./...
+	@GOBIN=$(GOBIN) go generate ./...
 	echo "done"
 
 compile: install build
 
 start-server: stop-server
 	echo "starting server... \c"
-	$(GOBIN)/$(PROJECTNAME) 2>&1 & echo $$! > $(PID)
+	@$(GOBIN)/$(PROJECTNAME) 2>&1 & echo $$! > $(PID)
 	echo "done"
 	cat $(PID) | sed "/^/s/^/  \>  PID: /"
 
 stop-server:
 	echo "stopping server... \c"
-	touch $(PID)
-	kill `cat $(PID)` 2> /dev/null || true
-	rm $(PID)
+	@touch $(PID)
+	@kill `cat $(PID)` 2> /dev/null || true
+	@rm $(PID)
 	echo "done"
 
 start: compile start-server
 
 stop: stop-server
 
+test:
+		@go test -short ${PKG_LIST}
+
+vet:
+		@go vet ${PKG_LIST}
+
+lint:
+		@for file in ${PKG_LIST) ;  do \
+			golint $$file ; \
+		done
+
 clean:
 	echo "cleaning build cache... \c"
-	go clean
-	rm -rf bin/
+	@go clean
+	@rm -rf bin/
 	echo "done"
 
 #.PHONY: help:
