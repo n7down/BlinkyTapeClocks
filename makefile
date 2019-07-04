@@ -106,7 +106,7 @@ PID := /tmp/.$(PROJECTNAME).pid
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
 GOFILES=$(GOPATH)/src/github.com/n7down/pitftdisplays/cmd/pitftdisplay/*.go
-PKG_LIST=$(go list ./...)
+PKG_LIST=$(shell find . -name '*.go')
 
 install:
 	echo "installing... \c"
@@ -149,7 +149,7 @@ vet:
 		@go vet ${PKG_LIST}
 
 lint:
-		@for file in ${PKG_LIST) ;  do \
+		@for file in ${PKG_LIST); do \
 			golint $$file ; \
 		done
 
@@ -159,9 +159,9 @@ clean:
 	@rm -rf bin/
 	echo "done"
 
-#.PHONY: help:
-	##echo "Choose a command run in $(PROJECTNAME):"
-	#echo "install"
-	#echo "build"
-	#echo "compile"
-	#echo "clean"
+help:
+	echo "Choose a command run in $(PROJECTNAME):"
+	echo " install - installs all dependencies for the project"
+	echo " build - builds a binary"
+	echo " compile - installs all dependencies and builds a binary"
+	echo " clean - cleans the cache and cleans up the build files"
