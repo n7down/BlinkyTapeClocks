@@ -17,7 +17,9 @@ func NewGithubDisplay(config *viper.Viper) *GithubDisplay {
 	}
 }
 
-func (g GithubDisplay) Refresh() {}
+func (g GithubDisplay) Refresh() bool {
+	return false
+}
 
 func (g GithubDisplay) Render() {
 	owner := "betaflight"
