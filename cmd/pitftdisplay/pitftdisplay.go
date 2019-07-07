@@ -8,9 +8,9 @@ import (
 
 	"github.com/n7down/pitftdisplays/internal/config"
 	"github.com/n7down/pitftdisplays/internal/display"
+	"github.com/n7down/pitftdisplays/internal/display/spacexdisplay"
 	"github.com/n7down/pitftdisplays/internal/utils"
-	//"github.com/n7down/pitftdisplays/internal/display/spacexdisplay"
-	"github.com/n7down/pitftdisplays/internal/display/githubdisplay"
+	//"github.com/n7down/pitftdisplays/internal/display/githubdisplay"
 )
 
 var (
@@ -24,14 +24,14 @@ func main() {
 	if *versionPtr {
 		fmt.Printf("pitftdisplay version %s build %s", Version, Build)
 	} else {
-		c, err := config.Config()
+		_, err := config.Config()
 		if err != nil {
 			log.Error(err)
 		}
 
 		displayManager := display.NewDisplayManager()
-		//displayManager.AddDisplay(spacexdisplay.NewSpaceXDisplay())
-		displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
+		displayManager.AddDisplay(spacexdisplay.NewSpaceXDisplay())
+		//displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
 		// TODO: render every second
 		//for {
 		//time.Sleep(time.Second)

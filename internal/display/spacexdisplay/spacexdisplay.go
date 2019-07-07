@@ -1,6 +1,7 @@
 package spacexdisplay
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/n7down/pitftdisplays/internal/spacexapi"
 	"github.com/n7down/pitftdisplays/internal/utils"
@@ -48,7 +49,9 @@ func (s SpaceXDisplay) Refresh() bool {
 }
 
 // Render the display
-func (s SpaceXDisplay) Render() {
+func (s SpaceXDisplay) Render() string {
+	var buffer bytes.Buffer
+
 	rocketType := strings.Title(s.Rocket.Engines.Type)
 
 	ipAddress, err := utils.GetLocalIP()
@@ -75,22 +78,23 @@ func (s SpaceXDisplay) Render() {
 	//fmt.Println("     ███████║██║     ██║  ██║╚██████╗███████╗██╔╝ ██╗")
 	//fmt.Println("     ╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝")
 
-	fmt.Println("  ____  ____   __    ___  ____  _  _ ")
-	fmt.Println(" / ___)(  _ \\ / _\\  / __)(  __)( \\/ )")
-	fmt.Println(" \\___ \\ ) __//    \\( (__  ) _)  )  ( ")
-	fmt.Println(" (____/(__)  \\_/\\_/ \\___)(____)(_/\\_)")
-	fmt.Printf("\tSpaceX API: [v%s] \t Version: [v%s]\n", spaceXApiVersion, spaceXClockVersion)
-	fmt.Println(" MISSION ======================================================")
-	fmt.Printf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber)
-	fmt.Println(" LAUNCH ========================================================")
-	fmt.Printf("  Launch Site: \t\t\t%s\n", s.NextLaunch.LaunchSite.SiteName)
-	fmt.Printf("  Time: \t\t\t%s\n", timeNow)
-	fmt.Printf("  Time UTC: \t\t\t%s\n", timeNowUTC)
-	fmt.Printf("  Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated)
-	fmt.Printf("  Elapsed Time: \t\t%s\n", elapsedTime.String())
-	fmt.Printf("  [%s]\n", elapsedTime.PrintBar())
-	fmt.Println(" ROCKET ========================================================")
-	fmt.Printf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version)
-	fmt.Println(" SYSTEM ========================================================")
-	fmt.Printf("  Name: %s \t\tIPv4: %s/24\n", hostname, ipAddress)
+	buffer.WriteString("  ____  ____   __    ___  ____  _  _ \n")
+	buffer.WriteString(" / ___)(  _ \\ / _\\  / __)(  __)( \\/ )\n")
+	buffer.WriteString(" \\___ \\ ) __//    \\( (__  ) _)  )  ( \n")
+	buffer.WriteString(" (____/(__)  \\_/\\_/ \\___)(____)(_/\\_)\n")
+	buffer.WriteString(fmt.Sprintf("\tSpaceX API: [v%s] \t Version: [v%s]\n", spaceXApiVersion, spaceXClockVersion))
+	buffer.WriteString(" MISSION ======================================================\n")
+	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
+	buffer.WriteString(" LAUNCH ========================================================\n")
+	buffer.WriteString(fmt.Sprintf("  Launch Site: \t\t\t%s\n", s.NextLaunch.LaunchSite.SiteName))
+	buffer.WriteString(fmt.Sprintf("  Time: \t\t\t%s\n", timeNow))
+	buffer.WriteString(fmt.Sprintf("  Time UTC: \t\t\t%s\n", timeNowUTC))
+	buffer.WriteString(fmt.Sprintf("  Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated))
+	buffer.WriteString(fmt.Sprintf("  Elapsed Time: \t\t%s\n", elapsedTime.String()))
+	buffer.WriteString(fmt.Sprintf("  [%s]\n", elapsedTime.PrintBar()))
+	buffer.WriteString(" ROCKET ========================================================\n")
+	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version))
+	buffer.WriteString(" SYSTEM ========================================================\n")
+	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tIPv4: %s/24\n", hostname, ipAddress))
+	return buffer.String()
 }

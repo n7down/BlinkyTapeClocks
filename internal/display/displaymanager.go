@@ -1,6 +1,7 @@
 package display
 
 import (
+	"fmt"
 
 	// FIXME: may have to change this to a stack
 	"container/list"
@@ -23,5 +24,6 @@ func (dm DisplayManager) AddDisplay(d Display) {
 }
 
 func (dm DisplayManager) Render() {
-	dm.displayList.Front().Value.(Display).Render()
+	display := dm.displayList.Front().Value.(Display).Render()
+	fmt.Println(display)
 }

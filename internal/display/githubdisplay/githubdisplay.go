@@ -1,6 +1,7 @@
 package githubdisplay
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/n7down/pitftdisplays/internal/githubapi"
 	log "github.com/sirupsen/logrus"
@@ -21,7 +22,8 @@ func (g GithubReleasesDisplay) Refresh() bool {
 	return false
 }
 
-func (g GithubReleasesDisplay) Render() {
+func (g GithubReleasesDisplay) Render() string {
+	var buffer bytes.Buffer
 	githubToken := g.config.GetString("github")
 	betaflightReleases, err := githubapi.GetReleases("betaflight", "betaflight", githubToken)
 	if err != nil {
@@ -68,13 +70,10 @@ func (g GithubReleasesDisplay) Render() {
 	//log.Error(err)
 	//}
 
-	fmt.Printf("betaflight: %s\n", betaflightReleases[0].Name)
-	fmt.Printf("betaflight configurator: %s\n", betaflightConfiguratorReleases[0].Name)
-	//fmt.Printf("%s\n", goReleases[0].Name)
-	fmt.Printf("godot: %s\n", godotReleases[0].Name)
-	//fmt.Printf("i3: %s\n", i3Releases[0].Name)
-	//fmt.Printf("%s\n", linuxReleases)
-	fmt.Printf("httpie: %s\n", httpieReleases[0].Name)
-	fmt.Printf("neovim: %s\n", neovimReleases[0].Name)
-	//fmt.Printf("%s\n", fzfReleases[0].Name)
+	buffer.WriteString(fmt.Sprintf("betaflight: %s\n", betaflightReleases[0].Name))
+	buffer.WriteString(fmt.Sprintf("betflight configurator: %s\n", betaflightConfiguratorReleases[0].Name))
+	buffer.WriteString(fmt.Sprintf("godot: %s\n", godotReleases[0].Name))
+	buffer.WriteString(fmt.Sprintf("httpie: %s\n", httpieReleases[0].Name))
+	buffer.WriteString(fmt.Sprintf("neovim: %s\n", neovimReleases[0].Name))
+	return buffer.String()
 }
