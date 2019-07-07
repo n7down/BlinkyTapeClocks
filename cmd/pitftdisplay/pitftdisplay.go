@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	"time"
+	//"time"
 
 	"github.com/n7down/pitftdisplays/internal/config"
 	"github.com/n7down/pitftdisplays/internal/display"
@@ -31,12 +31,12 @@ func main() {
 
 		displayManager := display.NewDisplayManager()
 		//displayManager.AddDisplay(spacexdisplay.NewSpaceXDisplay())
-		displayManager.AddDisplay(githubdisplay.NewGithubDisplay(c))
+		displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
 		// TODO: render every second
-		for {
-			time.Sleep(time.Second)
-			utils.ClearScreen()
-			displayManager.Render()
-		}
+		//for {
+		//time.Sleep(time.Second)
+		utils.ClearScreen()
+		displayManager.Render()
+		//}
 	}
 }
