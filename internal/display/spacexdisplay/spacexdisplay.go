@@ -8,22 +8,23 @@ import (
 
 	//aurora "github.com/logrusorgru/aurora"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"strings"
 	"time"
 )
 
 const (
-	spaceXApiVersion   = "3"
-	spaceXClockVersion = "1.0.0"
+	spaceXApiVersion = "3"
 )
 
 type SpaceXDisplay struct {
 	LastUpdate time.Time            `json:"last_update"`
 	NextLaunch spacexapi.NextLaunch `json:"next_launch"`
 	Rocket     spacexapi.Rocket     `json:"rocket"`
+	config     *viper.Viper
 }
 
-func NewSpaceXDisplay() *SpaceXDisplay {
+func NewSpaceXDisplay(config *viper.Viper) *SpaceXDisplay {
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
 		log.Error(err)
@@ -38,6 +39,7 @@ func NewSpaceXDisplay() *SpaceXDisplay {
 		LastUpdate: time.Now(),
 		NextLaunch: nextLaunch,
 		Rocket:     rocket,
+		config:     config,
 	}
 
 	return &d
@@ -70,6 +72,10 @@ func (s SpaceXDisplay) Render() string {
 	nextLaunchTimeUtcFormated := nextLaunchTimeUtc.Format("Mon Jan _2, 2006 15:04:05 ")
 	elapsedTime := utils.NewElapsedTime(time.Until(nextLaunchTimeUtc))
 
+	// FIXME: get the pitftversion from the config
+	//piTftVersion := ""
+	piTftVersion := s.config.GetString("version")
+
 	//fmt.Println("")
 	//fmt.Println("     ███████╗██████╗  █████╗  ██████╗███████╗██╗  ██╗")
 	//fmt.Println("     ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝╚██╗██╔╝")
@@ -82,7 +88,7 @@ func (s SpaceXDisplay) Render() string {
 	buffer.WriteString(" / ___)(  _ \\ / _\\  / __)(  __)( \\/ )\n")
 	buffer.WriteString(" \\___ \\ ) __//    \\( (__  ) _)  )  ( \n")
 	buffer.WriteString(" (____/(__)  \\_/\\_/ \\___)(____)(_/\\_)\n")
-	buffer.WriteString(fmt.Sprintf("\tSpaceX API: [v%s] \t Version: [v%s]\n", spaceXApiVersion, spaceXClockVersion))
+	buffer.WriteString(fmt.Sprintf("\tSpaceX API: [v%s] \t Version: [%s]\n", spaceXApiVersion, piTftVersion))
 	buffer.WriteString(" MISSION ======================================================\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
 	buffer.WriteString(" LAUNCH ========================================================\n")

@@ -24,13 +24,16 @@ func main() {
 	if *versionPtr {
 		fmt.Printf("pitftdisplay version %s build %s", Version, Build)
 	} else {
-		_, err := config.Config()
+		c, err := config.Config()
 		if err != nil {
 			log.Error(err)
 		}
 
+		// FIXME: add the version to the config
+		c.Set("version", Version)
+
 		displayManager := display.NewDisplayManager()
-		displayManager.AddDisplay(spacexdisplay.NewSpaceXDisplay())
+		displayManager.AddDisplay(spacexdisplay.NewSpaceXDisplay(c))
 		//displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
 		// TODO: render every second
 		//for {
