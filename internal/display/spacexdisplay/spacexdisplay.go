@@ -24,15 +24,15 @@ type SpaceXDisplay struct {
 	config     *viper.Viper
 }
 
-func NewSpaceXDisplay(config *viper.Viper) *SpaceXDisplay {
+func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
-		log.Error(err)
+		return nil, err
 	}
 
 	rocket, err := spacexapi.GetRocket(nextLaunch.Rocket.RocketID)
 	if err != nil {
-		log.Error(err)
+		return nil, err
 	}
 
 	d := SpaceXDisplay{
@@ -42,7 +42,7 @@ func NewSpaceXDisplay(config *viper.Viper) *SpaceXDisplay {
 		config:     config,
 	}
 
-	return &d
+	return &d, nil
 }
 
 // Returns true if this object should be recreated

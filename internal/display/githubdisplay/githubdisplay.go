@@ -12,10 +12,10 @@ type GithubReleasesDisplay struct {
 	config *viper.Viper
 }
 
-func NewGithubReleasesDisplay(config *viper.Viper) *GithubReleasesDisplay {
+func NewGithubReleasesDisplay(config *viper.Viper) (*GithubReleasesDisplay, error) {
 	return &GithubReleasesDisplay{
 		config: config,
-	}
+	}, nil
 }
 
 func (g GithubReleasesDisplay) Refresh() bool {
