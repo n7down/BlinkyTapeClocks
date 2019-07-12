@@ -90,7 +90,6 @@ func (s SpaceXDisplay) Render() string {
 	//buffer.WriteString(" \\___ \\ ) __//    \\( (__  ) _)  )  ( \n")
 	//buffer.WriteString(" (____/(__)  \\_/\\_/ \\___)(____)(_/\\_)\n")
 
-	buffer.WriteString("tttt\n")
 	buffer.WriteString(fmt.Sprintf(" SPACEX - API: [v%s]\n", spaceXApiVersion))
 	buffer.WriteString(fmt.Sprintf(" PITFTDisplay: [%s]\n", piTftVersion))
 	buffer.WriteString(fmt.Sprintf(" Hostname: [%s] \t\tIPv4: [%s/24]\n", hostname, ipAddress))
