@@ -39,7 +39,7 @@ func (u UsgsDisplay) Refresh() bool {
 
 func (u UsgsDisplay) Render() string {
 	var buffer bytes.Buffer
-	out, err := utils.ExecCommand("spark")
+	out, err := utils.ExecCommand("spark", []string{"2", "3"})
 	if err != nil {
 		log.Error(err)
 	}

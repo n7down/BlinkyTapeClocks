@@ -14,8 +14,8 @@ func ClearScreen() {
 	cmd.Run()
 }
 
-func ExecCommand(command string, args ...string) (string, error) {
-	cmd := exec.Command(command, args)
+func ExecCommand(command string, args []string) (string, error) {
+	cmd := exec.Command(command, args...)
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

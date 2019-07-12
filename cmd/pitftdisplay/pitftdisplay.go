@@ -4,14 +4,14 @@ import (
 	"flag"
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	//"time"
+	"time"
 
 	"github.com/n7down/pitftdisplays/internal/config"
 	"github.com/n7down/pitftdisplays/internal/display"
+	"github.com/n7down/pitftdisplays/internal/display/spacexdisplay"
 	"github.com/n7down/pitftdisplays/internal/utils"
-	//"github.com/n7down/pitftdisplays/internal/display/spacexdisplay"
 	//"github.com/n7down/pitftdisplays/internal/display/githubdisplay"
-	"github.com/n7down/pitftdisplays/internal/display/usgsdisplay"
+	//"github.com/n7down/pitftdisplays/internal/display/usgsdisplay"
 )
 
 var (
@@ -32,27 +32,27 @@ func main() {
 
 		c.Set("version", Version)
 
-		//spaceXDisplay, err := spacexdisplay.NewSpaceXDisplay(c)
-		//if err != nil {
-		//log.Error(err)
-		//return
-		//}
-
-		usgsDisplay, err := usgsdisplay.NewUsgsDisplay(c)
+		spaceXDisplay, err := spacexdisplay.NewSpaceXDisplay(c)
 		if err != nil {
 			log.Error(err)
 			return
 		}
 
+		//usgsDisplay, err := usgsdisplay.NewUsgsDisplay(c)
+		//if err != nil {
+		//log.Error(err)
+		//return
+		//}
+
 		displayManager := display.NewDisplayManager()
-		//displayManager.AddDisplay(spaceXDisplay)
-		displayManager.AddDisplay(usgsDisplay)
+		displayManager.AddDisplay(spaceXDisplay)
+		//displayManager.AddDisplay(usgsDisplay)
 		//displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
 		// TODO: render every second
-		//for {
-		//time.Sleep(time.Second)
-		utils.ClearScreen()
-		displayManager.Render()
-		//}
+		for {
+			time.Sleep(time.Second)
+			utils.ClearScreen()
+			displayManager.Render()
+		}
 	}
 }
