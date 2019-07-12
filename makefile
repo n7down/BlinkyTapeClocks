@@ -113,7 +113,7 @@ install:
 	@go get ./... 
 	echo "done"
 
-build:
+build: clean
 	echo "building... \c"
 	@GOBIN=$(GOBIN) go build $(LDFLAGS) -o $(GOBIN)/$(PROJECTNAME) $(GOFILES)
 	echo "done"
