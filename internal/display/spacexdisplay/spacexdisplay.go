@@ -84,14 +84,8 @@ func (s SpaceXDisplay) Render() string {
 	//fmt.Println("     ███████║██║     ██║  ██║╚██████╗███████╗██╔╝ ██╗")
 	//fmt.Println("     ╚══════╝╚═╝     ╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝")
 
-	//buffer.WriteString("\n")
-	//buffer.WriteString("  ____  ____   __    ___  ____  _  _ \n")
-	//buffer.WriteString(" / ___)(  _ \\ / _\\  / __)(  __)( \\/ )\n")
-	//buffer.WriteString(" \\___ \\ ) __//    \\( (__  ) _)  )  ( \n")
-	//buffer.WriteString(" (____/(__)  \\_/\\_/ \\___)(____)(_/\\_)\n")
-
 	buffer.WriteString("\n")
-	buffer.WriteString(fmt.Sprintf(" SPACEX - API: [v%s]\n", spaceXApiVersion))
+	buffer.WriteString(fmt.Sprintf(" SPACEX: [v%s]\n", spaceXApiVersion))
 	buffer.WriteString(fmt.Sprintf(" PITFTDisplay: [%s]\n", piTftVersion))
 	buffer.WriteString(fmt.Sprintf(" Hostname: [%s] \t\tIPv4: [%s/24]\n", hostname, ipAddress))
 	buffer.WriteString("\n")
