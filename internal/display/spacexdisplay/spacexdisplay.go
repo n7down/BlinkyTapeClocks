@@ -18,10 +18,11 @@ const (
 )
 
 type SpaceXDisplay struct {
-	LastUpdate time.Time            `json:"last_update"`
-	NextLaunch spacexapi.NextLaunch `json:"next_launch"`
-	Rocket     spacexapi.Rocket     `json:"rocket"`
-	config     *viper.Viper
+	LastUpdate  time.Time            `json:"last_update"`
+	NextLaunch  spacexapi.NextLaunch `json:"next_launch"`
+	Rocket      spacexapi.Rocket     `json:"rocket"`
+	config      *viper.Viper
+	refreshTime time.time
 }
 
 func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
@@ -34,6 +35,8 @@ func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// TODO: set the refresh time to the next rocket launch time +1 day
 
 	d := SpaceXDisplay{
 		LastUpdate: time.Now(),

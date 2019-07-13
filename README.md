@@ -1,4 +1,4 @@
-# PI-TFT Displays 
+# Timelord 
 
 ## APIs to look at 
 - [Rick and Morth API](https://rickandmortyapi.com/)
