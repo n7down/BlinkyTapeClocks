@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+.DS_Store
 
 # Test binary, built with `go test -c`
 *.test
@@ -18,5 +19,4 @@
 *.swo
 
 bin/
-
-.DS_Store
+config/config.json
