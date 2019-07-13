@@ -6,16 +6,16 @@ import (
 	log "github.com/sirupsen/logrus"
 	"time"
 
-	"github.com/n7down/pitftdisplays/internal/config"
-	"github.com/n7down/pitftdisplays/internal/display"
-	"github.com/n7down/pitftdisplays/internal/display/spacexdisplay"
-	"github.com/n7down/pitftdisplays/internal/utils"
-	//"github.com/n7down/pitftdisplays/internal/display/githubdisplay"
-	//"github.com/n7down/pitftdisplays/internal/display/usgsdisplay"
+	"github.com/n7down/timelord/internal/config"
+	"github.com/n7down/timelord/internal/display"
+	"github.com/n7down/timelord/internal/display/spacexdisplay"
+	"github.com/n7down/timelord/internal/utils"
+	//"github.com/n7down/timelord/internal/display/githubdisplay"
+	//"github.com/n7down/timelord/internal/display/usgsdisplay"
 )
 
 var (
-	Version string
+	Version = "v0.1"
 	Build   string
 )
 

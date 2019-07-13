@@ -2,8 +2,8 @@ package usgsdisplay
 
 import (
 	"bytes"
-	"github.com/n7down/pitftdisplays/internal/usgsapi"
-	"github.com/n7down/pitftdisplays/internal/utils"
+	"github.com/n7down/timelord/internal/usgsapi"
+	"github.com/n7down/timelord/internal/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )

@@ -3,8 +3,8 @@ package spacexdisplay
 import (
 	"bytes"
 	"fmt"
-	"github.com/n7down/pitftdisplays/internal/spacexapi"
-	"github.com/n7down/pitftdisplays/internal/utils"
+	"github.com/n7down/timelord/internal/spacexapi"
+	"github.com/n7down/timelord/internal/utils"
 
 	//aurora "github.com/logrusorgru/aurora"
 	log "github.com/sirupsen/logrus"
@@ -22,7 +22,7 @@ type SpaceXDisplay struct {
 	NextLaunch  spacexapi.NextLaunch `json:"next_launch"`
 	Rocket      spacexapi.Rocket     `json:"rocket"`
 	config      *viper.Viper
-	refreshTime time.time
+	refreshTime time.Time
 }
 
 func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {

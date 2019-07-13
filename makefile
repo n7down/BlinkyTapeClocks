@@ -6,7 +6,7 @@ MAKEFLAGS += --silent
 PID := /tmp/.$(PROJECTNAME).pid
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
-GOFILES=$(GOPATH)/src/github.com/n7down/pitftdisplays/cmd/pitftdisplay/*.go
+GOFILES=$(GOPATH)/src/github.com/n7down/timelord/cmd/timelord/*.go
 ALLFILES=$(shell find . -name '*.go')
 
 install:
@@ -59,6 +59,12 @@ clean:
 	@go clean
 	@rm -rf bin/
 	echo "done"
+
+update:
+	@clear
+	make stop
+	git pull origin dev
+	make start
 
 help:
 	echo "Choose a command run in $(PROJECTNAME):"

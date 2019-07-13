@@ -3,7 +3,7 @@ package githubdisplay
 import (
 	"bytes"
 	"fmt"
-	"github.com/n7down/pitftdisplays/internal/githubapi"
+	"github.com/n7down/timelord/internal/githubapi"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
