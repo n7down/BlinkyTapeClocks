@@ -23,7 +23,7 @@ type SpaceXDisplay struct {
 	refreshTime time.Time
 }
 
-func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
+func refreshDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 	nextLaunch, err := spacexapi.GetNextLaunch()
 	if err != nil {
 		return nil, err
@@ -34,21 +34,39 @@ func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 		return nil, err
 	}
 
-	// TODO: set the refresh time to the next rocket launch time +1 week
+	refreshTime := nextLaunch.LaunchDateUtc.AddDate(0, 0, 7)
 
 	d := SpaceXDisplay{
-		LastUpdate: time.Now(),
-		NextLaunch: nextLaunch,
-		Rocket:     rocket,
-		config:     config,
+		LastUpdate:  time.Now(),
+		NextLaunch:  nextLaunch,
+		Rocket:      rocket,
+		config:      config,
+		refreshTime: refreshTime,
 	}
 
 	return &d, nil
 }
 
-// Returns true if this object should be recreated
-func (s SpaceXDisplay) Refresh() bool {
-	return false
+func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
+	d, err := refreshDisplay(config)
+	if err != nil {
+		return &SpaceXDisplay{}, err
+	}
+	return d, nil
+}
+
+// Get new data when needed
+func (s SpaceXDisplay) Refresh() error {
+	elapsed := time.Since(s.refreshTime)
+	if elapsed < 0 {
+		// refresh the data
+		d, err := refreshDisplay(s.config)
+		if err != nil {
+			return err
+		}
+		s = *d
+	}
+	return nil
 }
 
 // Render the display
