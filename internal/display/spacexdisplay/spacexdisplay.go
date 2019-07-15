@@ -74,6 +74,8 @@ func (s SpaceXDisplay) Render() string {
 	var buffer bytes.Buffer
 
 	rocketType := strings.Title(s.Rocket.Engines.Type)
+	propellant1 := strings.Title(s.Rocket.Engines.Propellant1)
+	propellant2 := strings.Title(s.Rocket.Engines.Propellant2)
 	timeNow := time.Now().Format("Mon Jan _2, 2006 15:04:05")
 	timeNowUTC := time.Now().UTC().Format("Mon Jan _2, 2006 15:04:05")
 	nextLaunchTimeUtc := s.NextLaunch.LaunchDateUtc
@@ -82,10 +84,17 @@ func (s SpaceXDisplay) Render() string {
 	timelordVersion := s.config.GetString("version")
 
 	buffer.WriteString("\n")
-	buffer.WriteString(fmt.Sprintf(" SPACEX \t\t\t[v%s][%s]\n", spaceXApiVersion, timelordVersion))
+	buffer.WriteString(fmt.Sprintf(" SPACEX Launch Clock\t\t\t\t[v%s][%s]\n", spaceXApiVersion, timelordVersion))
 	buffer.WriteString("\n")
 	buffer.WriteString(" MISSION --------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
+	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
+	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version))
+	buffer.WriteString(fmt.Sprintf("  Propellant: \t\t\t%s/%s\n", propellant1, propellant2))
+	buffer.WriteString("  Thrust\n")
+	buffer.WriteString(fmt.Sprintf("  - Weight: \t\t\t%v\n", s.Rocket.Engines.ThrustToWeight))
+	buffer.WriteString(fmt.Sprintf("  - Sea Level (kN/lbf): \t%v/%v\n", s.Rocket.Engines.ThrustSeaLevel.KN, s.Rocket.Engines.ThrustSeaLevel.Lbf))
+	buffer.WriteString(fmt.Sprintf("  - Vacuum (kN/lbf): \t\t%v/%v\n", s.Rocket.Engines.ThrustVacuum.KN, s.Rocket.Engines.ThrustVacuum.Lbf))
 	buffer.WriteString(" LAUNCH ---------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Launch Site: \t\t\t%s\n", s.NextLaunch.LaunchSite.SiteName))
 	buffer.WriteString(fmt.Sprintf("  Time: \t\t\t%s\n", timeNow))
@@ -93,7 +102,6 @@ func (s SpaceXDisplay) Render() string {
 	buffer.WriteString(fmt.Sprintf("  Launch Time UTC: \t\t%s\n", nextLaunchTimeUtcFormated))
 	buffer.WriteString(fmt.Sprintf("  Elapsed Time: \t\t%s\n", elapsedTime.String()))
 	buffer.WriteString(fmt.Sprintf("  [%s]\n", elapsedTime.PrintBar()))
-	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
-	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version))
+
 	return buffer.String()
 }
