@@ -32,11 +32,15 @@ func main() {
 
 		c.Set("version", Version)
 
+		displayManager := display.NewDisplayManager()
+
 		spaceXDisplay, err := spacexdisplay.NewSpaceXDisplay(c)
 		if err != nil {
 			log.Error(err)
 			return
 		}
+
+		displayManager.AddDisplay(spaceXDisplay)
 
 		//usgsDisplay, err := usgsdisplay.NewUsgsDisplay(c)
 		//if err != nil {
@@ -44,14 +48,17 @@ func main() {
 		//return
 		//}
 
-		displayManager := display.NewDisplayManager()
-		displayManager.AddDisplay(spaceXDisplay)
 		//displayManager.AddDisplay(usgsDisplay)
 		//displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
-		// TODO: render every second
+
 		for {
 			time.Sleep(time.Second)
 			utils.ClearScreen()
+			err := displayManager.Refresh()
+			if err != nil {
+				log.Error(err.Error)
+				return
+			}
 			displayManager.Render()
 		}
 	}

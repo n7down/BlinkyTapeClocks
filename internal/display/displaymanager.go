@@ -23,7 +23,16 @@ func (dm DisplayManager) AddDisplay(d Display) {
 	dm.displayList.PushBack(d)
 }
 
+func (dm DisplayManager) Refresh() error {
+	display := dm.displayList.Front().Value.(Display)
+	err := display.Refresh()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (dm DisplayManager) Render() {
-	display := dm.displayList.Front().Value.(Display).Render()
-	fmt.Println(display)
+	display := dm.displayList.Front().Value.(Display)
+	fmt.Println(display.Render())
 }

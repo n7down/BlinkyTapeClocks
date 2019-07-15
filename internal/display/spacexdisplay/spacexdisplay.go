@@ -58,7 +58,7 @@ func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 // Get new data when needed
 func (s SpaceXDisplay) Refresh() error {
 	elapsed := time.Since(s.refreshTime)
-	if elapsed < 0 {
+	if elapsed > 0 {
 		// refresh the data
 		d, err := refreshDisplay(s.config)
 		if err != nil {
