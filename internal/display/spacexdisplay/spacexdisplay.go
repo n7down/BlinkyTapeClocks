@@ -74,8 +74,8 @@ func (s SpaceXDisplay) Render() string {
 	var buffer bytes.Buffer
 
 	rocketType := strings.Title(s.Rocket.Engines.Type)
-	propellant1 := strings.Title(s.Rocket.Engines.Propellant1)
-	propellant2 := strings.Title(s.Rocket.Engines.Propellant2)
+	//propellant1 := strings.Title(s.Rocket.Engines.Propellant1)
+	//propellant2 := strings.Title(s.Rocket.Engines.Propellant2)
 	timeNow := time.Now().Format("Mon Jan _2, 2006 15:04:05")
 	timeNowUTC := time.Now().UTC().Format("Mon Jan _2, 2006 15:04:05")
 	nextLaunchTimeUtc := s.NextLaunch.LaunchDateUtc
