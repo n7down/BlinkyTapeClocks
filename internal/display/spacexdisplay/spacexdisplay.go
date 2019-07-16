@@ -84,6 +84,7 @@ func (s SpaceXDisplay) Render() string {
 	timelordVersion := s.config.GetString("version")
 
 	buffer.WriteString(fmt.Sprintf(" SPACEX\t[v%s][%s]\n", spaceXApiVersion, timelordVersion))
+	buffer.WriteString(fmt.Sprintf("\n"))
 	buffer.WriteString(" MISSION --------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
 	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
