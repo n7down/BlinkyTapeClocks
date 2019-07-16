@@ -89,7 +89,7 @@ func (s SpaceXDisplay) Render() string {
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
 	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version))
-	buffer.WriteString(fmt.Sprintf("  Propellant: \t\t\t%s/%s\n", propellant1, propellant2))
+	//buffer.WriteString(fmt.Sprintf("  Propellant: \t\t\t%s/%s\n", propellant1, propellant2))
 	buffer.WriteString("  Thrust\n")
 	buffer.WriteString(fmt.Sprintf("  - Weight: \t\t\t%v\n", s.Rocket.Engines.ThrustToWeight))
 	buffer.WriteString(fmt.Sprintf("  - Sea Level (kN/lbf): \t%v/%v\n", s.Rocket.Engines.ThrustSeaLevel.KN, s.Rocket.Engines.ThrustSeaLevel.Lbf))
