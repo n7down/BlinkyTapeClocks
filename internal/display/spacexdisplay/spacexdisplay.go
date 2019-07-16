@@ -81,14 +81,9 @@ func (s SpaceXDisplay) Render() string {
 	nextLaunchTimeUtc := s.NextLaunch.LaunchDateUtc
 	nextLaunchTimeUtcFormated := nextLaunchTimeUtc.Format("Mon Jan _2, 2006 15:04:05 ")
 	elapsedTime := utils.NewElapsedTime(time.Until(nextLaunchTimeUtc))
-
 	timelordVersion := s.config.GetString("version")
-	if len(timelordVersion) > 4 {
-		timelordVersion = timelordVersion[0:7]
-	}
 
 	buffer.WriteString(fmt.Sprintf(" SPACEX\t[v%s][%s]\n", spaceXApiVersion, timelordVersion))
-	buffer.WriteString("\n")
 	buffer.WriteString(" MISSION --------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
 	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
