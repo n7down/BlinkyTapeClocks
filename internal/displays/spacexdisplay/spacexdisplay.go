@@ -3,7 +3,7 @@ package spacexdisplay
 import (
 	"bytes"
 	"fmt"
-	"github.com/n7down/timelord/internal/spacexapi"
+	"github.com/n7down/timelord/internal/apis/spacexapi"
 	"github.com/n7down/timelord/internal/utils"
 
 	"github.com/spf13/viper"

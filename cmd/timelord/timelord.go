@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/n7down/timelord/internal/config"
-	"github.com/n7down/timelord/internal/display"
-	"github.com/n7down/timelord/internal/display/spacexdisplay"
+	"github.com/n7down/timelord/internal/displays"
+	"github.com/n7down/timelord/internal/displays/spacexdisplay"
 	"github.com/n7down/timelord/internal/utils"
 	//"github.com/n7down/timelord/internal/display/githubdisplay"
 	//"github.com/n7down/timelord/internal/display/usgsdisplay"
