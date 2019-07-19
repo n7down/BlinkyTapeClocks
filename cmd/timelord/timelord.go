@@ -8,8 +8,9 @@ import (
 
 	"github.com/n7down/timelord/internal/config"
 	"github.com/n7down/timelord/internal/displays"
+	"github.com/n7down/timelord/internal/displays/issdisplay"
 	"github.com/n7down/timelord/internal/displays/spacexdisplay"
-	"github.com/n7down/timelord/internal/utils"
+	//"github.com/n7down/timelord/internal/utils"
 	//"github.com/n7down/timelord/internal/display/githubdisplay"
 	//"github.com/n7down/timelord/internal/display/usgsdisplay"
 )
@@ -32,7 +33,11 @@ func main() {
 
 		c.Set("version", Version)
 
-		displayManager := display.NewDisplayManager()
+		displayManager := display.NewDisplayManager(time.Second * 5)
+
+		issDisplay := issdisplay.NewIssDisplay(c)
+
+		displayManager.AddDisplay(issDisplay)
 
 		spaceXDisplay, err := spacexdisplay.NewSpaceXDisplay(c)
 		if err != nil {
@@ -42,18 +47,9 @@ func main() {
 
 		displayManager.AddDisplay(spaceXDisplay)
 
-		//usgsDisplay, err := usgsdisplay.NewUsgsDisplay(c)
-		//if err != nil {
-		//log.Error(err)
-		//return
-		//}
-
-		//displayManager.AddDisplay(usgsDisplay)
-		//displayManager.AddDisplay(githubdisplay.NewGithubReleasesDisplay(c))
-
 		for {
 			time.Sleep(time.Second)
-			utils.ClearScreen()
+			//utils.ClearScreen()
 			err := displayManager.Refresh()
 			if err != nil {
 				log.Error(err.Error)

@@ -2,7 +2,7 @@ package usgsdisplay
 
 import (
 	"bytes"
-	"github.com/n7down/timelord/internal/usgsapi"
+	"github.com/n7down/timelord/internal/apis/usgsapi"
 	"github.com/n7down/timelord/internal/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
