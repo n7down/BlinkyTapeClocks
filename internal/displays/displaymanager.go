@@ -10,15 +10,14 @@ import (
 type DisplayManager struct {
 	displayStack      *stack.Stack
 	switchDisplayTime time.Duration
-	startTime         *time.Time
+	startTime         time.Time
 }
 
 func NewDisplayManager(switchDisplayTime time.Duration) *DisplayManager {
-	startTime := time.Now()
 	dm := DisplayManager{
 		displayStack:      stack.New(),
 		switchDisplayTime: switchDisplayTime,
-		startTime:         &startTime,
+		startTime:         time.Now(),
 	}
 	return &dm
 }
@@ -40,14 +39,16 @@ func (dm DisplayManager) Refresh() error {
 func (dm DisplayManager) Render() {
 
 	// FIXME: this is not working - not switching the time
-	elapsedTime := time.Since(*dm.startTime)
+	elapsedTime := time.Since(dm.startTime)
 	fmt.Println(fmt.Sprintf("%v", elapsedTime))
 	if elapsedTime > dm.switchDisplayTime {
 		fmt.Println("switch display")
+		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
 		display := dm.displayStack.Pop()
+		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
 		dm.displayStack.Push(display)
-		newTime := time.Now()
-		dm.startTime = &newTime
+		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
+		dm.startTime = time.Now()
 	}
 	display := dm.displayStack.Peek().(Display)
 	fmt.Println(display.Render())
