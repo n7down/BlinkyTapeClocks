@@ -41,7 +41,7 @@ func (dm DisplayManager) Render() {
 	// FIXME: this is not working - not switching the time
 	elapsedTime := time.Since(dm.startTime)
 	fmt.Println(fmt.Sprintf("%v", elapsedTime))
-	if elapsedTime > dm.switchDisplayTime {
+	if dm.displayStack.Len() > 1 && elapsedTime > dm.switchDisplayTime {
 		fmt.Println("switch display")
 		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
 		display := dm.displayStack.Pop()

@@ -47,6 +47,14 @@ func refreshDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 	return &d, nil
 }
 
+func (s SpaceXDisplay) renderMission() string {
+	if len(s.NextLaunch.MissionName) >= 7 {
+		return fmt.Sprintf("  Name: %s \t\tFlight Name: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber)
+	} else {
+		return fmt.Sprintf("  Name: %s \t\t\tFlight Name: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber)
+	}
+}
+
 func NewSpaceXDisplay(config *viper.Viper) (*SpaceXDisplay, error) {
 	d, err := refreshDisplay(config)
 	if err != nil {
@@ -84,7 +92,7 @@ func (s SpaceXDisplay) Render() string {
 	buffer.WriteString(fmt.Sprintf(" SPACEX\t[v%s][%s]\n", spaceXApiVersion, timelordVersion))
 	buffer.WriteString(fmt.Sprintf("\n"))
 	buffer.WriteString(" MISSION --------------------------------------------------\n")
-	buffer.WriteString(fmt.Sprintf("  Name: %s \t\t\tFlight Number: %d\n", s.NextLaunch.MissionName, s.NextLaunch.FlightNumber))
+	buffer.WriteString(s.renderMission())
 	buffer.WriteString(" ROCKET ---------------------------------------------------\n")
 	buffer.WriteString(fmt.Sprintf("  Name: %s \t\tEngines: %d x %s %s\n", s.NextLaunch.Rocket.RocketName, s.Rocket.Engines.Number, rocketType, s.Rocket.Engines.Version))
 	buffer.WriteString("  Thrust\n")
