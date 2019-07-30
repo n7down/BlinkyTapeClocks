@@ -39,6 +39,7 @@ func (dm DisplayManager) Refresh() error {
 func (dm DisplayManager) Render() {
 
 	// FIXME: this is not working - not switching the time
+	// FIXME: may need to implement stack - https://stackoverflow.com/questions/28541609/looking-for-reasonable-stack-implementation-in-golang
 	elapsedTime := time.Since(dm.startTime)
 	fmt.Println(fmt.Sprintf("%v", elapsedTime))
 	if dm.displayStack.Len() > 1 && elapsedTime > dm.switchDisplayTime {
