@@ -2,7 +2,7 @@ package display
 
 import (
 	"fmt"
-	"github.com/golang-collections/go-datastructures/queue"
+	"github.com/n7down/timelord/pkg/queue"
 	"time"
 )
 
@@ -15,7 +15,7 @@ type DisplayManager struct {
 
 func NewDisplayManager(switchDisplayTime time.Duration) *DisplayManager {
 	dm := DisplayManager{
-		displayQueue:      queue.New(2),
+		displayQueue:      queue.NewQueue(),
 		switchDisplayTime: switchDisplayTime,
 		startTime:         time.Now(),
 	}
@@ -28,8 +28,11 @@ func (dm DisplayManager) AddDisplay(d Display) {
 }
 
 func (dm DisplayManager) Refresh() error {
-	display := dm.displayQueue.Peek().(Display)
-	err := display.Refresh()
+	display, err := dm.displayQueue.Peek()
+	if err != nil {
+	}
+
+	err = display.(Display).Refresh()
 	if err != nil {
 		return err
 	}
@@ -37,20 +40,23 @@ func (dm DisplayManager) Refresh() error {
 }
 
 func (dm DisplayManager) Render() {
-
-	// FIXME: this is not working - not switching the time
-	// FIXME: may need to implement stack - https://stackoverflow.com/questions/28541609/looking-for-reasonable-stack-implementation-in-golang
 	elapsedTime := time.Since(dm.startTime)
 	fmt.Println(fmt.Sprintf("%v", elapsedTime))
 	if dm.displayQueue.Len() > 1 && elapsedTime > dm.switchDisplayTime {
 		fmt.Println("switch display")
-		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
-		display := dm.displayStack.Pop()
-		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
-		dm.displayStack.Push(display)
-		fmt.Println(fmt.Sprintf("%v", dm.displayStack))
+		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
+		display, err := dm.displayQueue.Dequeue()
+		if err != nil {
+		}
+
+		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
+		dm.displayQueue.Put(display)
+		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
 		dm.startTime = time.Now()
 	}
-	display := dm.displayStack.Peek().(Display)
-	fmt.Println(display.Render())
+	display, err := dm.displayQueue.Peek()
+	if err != nil {
+	}
+
+	fmt.Println(display.(Display).Render())
 }
