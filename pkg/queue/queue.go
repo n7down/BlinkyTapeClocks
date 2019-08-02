@@ -1,54 +1,49 @@
 package queue
 
 import (
-	"errors"
 	"sync"
 )
 
 type Queue struct {
-	lock  sync.Mutex
-	items []interface{}
+	lock  sync.RWMutex
+	items []int
 }
 
 func NewQueue() *Queue {
 	q := &Queue{
-		lock: sync.Mutex{},
+		items: make([]int, 0),
 	}
 	return q
 }
 
-func (q Queue) Len() int {
+func (q Queue) IsEmpty() bool {
+	return len(q.items) == 0
+}
+
+func (q Queue) Size() int {
 	return len(q.items)
 }
 
-func (q Queue) Peek() (interface{}, error) {
+func (q Queue) Front() *int {
 	q.lock.Lock()
 	defer q.lock.Unlock()
 
-	l := len(q.items)
-	if l == 0 {
-		return nil, errors.New("queue is empty")
-	}
 	i := q.items[0]
-	return i, nil
+	return &i
 }
 
-func (q Queue) Put(i interface{}) {
+func (q Queue) Enqueue(i int) {
 	q.lock.Lock()
 	defer q.lock.Unlock()
 
 	q.items = append(q.items, i)
 }
 
-func (q Queue) Dequeue() (interface{}, error) {
+func (q Queue) Dequeue() *int {
 	q.lock.Lock()
 	defer q.lock.Unlock()
 
-	l := len(q.items)
-	if l == 0 {
-		return nil, errors.New("queue is empty")
-	}
 	i := q.items[0]
-	q.items = q.items[:l]
-	return i, nil
+	q.items = q.items[1:len(q.items)]
+	return &i
 }

@@ -1,21 +1,21 @@
 package display
 
 import (
+	"container/list"
 	"fmt"
-	"github.com/n7down/timelord/pkg/queue"
 	"time"
 )
 
 // A display manager, manages a list of displays and figures out when to refresh its stats and when to render it
 type DisplayManager struct {
-	displayQueue      *queue.Queue
+	displayList       *list.List
 	switchDisplayTime time.Duration
 	startTime         time.Time
 }
 
 func NewDisplayManager(switchDisplayTime time.Duration) *DisplayManager {
 	dm := DisplayManager{
-		displayQueue:      queue.NewQueue(),
+		displayList:       list.New(),
 		switchDisplayTime: switchDisplayTime,
 		startTime:         time.Now(),
 	}
@@ -23,16 +23,14 @@ func NewDisplayManager(switchDisplayTime time.Duration) *DisplayManager {
 }
 
 func (dm DisplayManager) AddDisplay(d Display) {
-	dm.displayQueue.Put(d)
-	fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
+	dm.displayList.PushBack(d)
+	fmt.Println(fmt.Sprintf("%v", dm.displayList))
 }
 
 func (dm DisplayManager) Refresh() error {
-	display, err := dm.displayQueue.Peek()
-	if err != nil {
-	}
+	display := dm.displayList.Front().Value.(Display)
 
-	err = display.(Display).Refresh()
+	err := display.Refresh()
 	if err != nil {
 		return err
 	}
@@ -42,21 +40,19 @@ func (dm DisplayManager) Refresh() error {
 func (dm DisplayManager) Render() {
 	elapsedTime := time.Since(dm.startTime)
 	fmt.Println(fmt.Sprintf("%v", elapsedTime))
-	if dm.displayQueue.Len() > 1 && elapsedTime > dm.switchDisplayTime {
-		fmt.Println("switch display")
-		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
-		display, err := dm.displayQueue.Dequeue()
-		if err != nil {
-		}
 
-		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
-		dm.displayQueue.Put(display)
-		fmt.Println(fmt.Sprintf("%v", dm.displayQueue))
+	//if dm.displayList.Len() > 1 && elapsedTime > dm.switchDisplayTime {
+	if elapsedTime > dm.switchDisplayTime {
+		fmt.Println("switch display")
+		fmt.Println(fmt.Sprintf("%v", dm.displayList))
+		display := dm.displayList.Front()
+
+		fmt.Println(fmt.Sprintf("%v", dm.displayList))
+		dm.displayList.MoveToBack(display)
+		fmt.Println(fmt.Sprintf("%v", dm.displayList))
 		dm.startTime = time.Now()
 	}
-	display, err := dm.displayQueue.Peek()
-	if err != nil {
-	}
 
-	fmt.Println(display.(Display).Render())
+	display := dm.displayList.Front()
+	fmt.Println(display.Value.(Display).Render())
 }
